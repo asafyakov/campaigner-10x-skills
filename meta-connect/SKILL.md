@@ -1,13 +1,13 @@
 ---
 name: meta-connect
-description: חיבור חשבון META לקלוד קוד — מדריך ליצירת טוקן, שליפת חשבונות/דפים/פיקסלים אוטומטית, ושמירה ב-CLAUDE.md.
+description: חיבור חשבון META לקלוד קוד — יצירת System User Token קבוע, שליפת חשבונות/דפים/פיקסלים אוטומטית, ושמירה ב-CLAUDE.md.
 allowed-tools: Bash, Read, Write, Edit
 argument-hint: "[טוקן]"
 ---
 
 # חיבור META — Meta Connect
 
-סקיל שמחבר את חשבון המודעות של META לקלוד קוד. מדריך ליצירת טוקן, שולף הכל אוטומטית, ושומר ב-CLAUDE.md.
+סקיל שמחבר את חשבון המודעות של META לקלוד קוד. יוצר System User Token קבוע (לא פג לעולם), שולף הכל אוטומטית, ושומר ב-CLAUDE.md.
 
 ---
 
@@ -24,36 +24,52 @@ argument-hint: "[טוקן]"
 
 ---
 
-## 1. קבלת טוקן
+## 1. יצירת אפליקציה
 
-בדוק אם המשתמש העביר טוקן כארגומנט. אם כן — דלג ישר לשלב 2.
+בדוק אם המשתמש העביר טוקן כארגומנט. אם כן — דלג ישר לשלב 3.
 
 אם לא — הדרך אותו צעד-צעד:
 
 אמור:
-> "בוא נחבר אותך ל-META. אני צריך טוקן כדי לגשת לחשבון המודעות שלך.
+> "בוא נחבר אותך ל-META. קודם ניצור אפליקציה:
 > 
-> ככה מייצרים טוקן:
 > 1. נכנסים ל-**developers.facebook.com** ומתחברים
 > 2. לוחצים **My Apps** → **Create App**
 > 3. בוחרים **Other** → **Business** → נותנים שם (למשל: 'סוכנות קלוד')
-> 4. נכנסים ל-**Tools** → **Graph API Explorer**
-> 5. בוחרים את ה-App שיצרתם למעלה
-> 6. לוחצים **Add a Permission** ומסמנים:
+> 4. לוחצים **Create App**
+> 
+> יצרת? מעולה."
+
+---
+
+## 2. יצירת System User Token (קבוע — לא פג לעולם)
+
+אמור:
+> "עכשיו ניצור טוקן קבוע שלא פג לעולם:
+> 
+> 1. נכנסים ל-**business.facebook.com**
+> 2. **Settings** (גלגל שיניים למטה משמאל) → **Business Settings**
+> 3. בתפריט: **Users** → **System Users**
+> 4. לוחצים **Add** → נותנים שם (למשל: 'claude-bot') → בוחרים **Admin** → **Create**
+> 5. לוחצים **Add Assets** → **Ad Accounts** → מסמנים את החשבון → **Full Control** → **Save**
+> 6. חוזרים ל-**Add Assets** → **Pages** → מסמנים את הדף → **Full Control** → **Save**
+> 7. לוחצים **Generate New Token**
+> 8. בוחרים את ה-**App** שיצרתם בשלב 1
+> 9. מסמנים הרשאות:
 >    - `ads_management`
 >    - `ads_read`
 >    - `pages_read_engagement`
 >    - `pages_manage_ads`
 >    - `business_management`
 >    - `read_insights`
-> 7. לוחצים **Generate Access Token** ומאשרים
-> 8. **מעתיקים את הטוקן ומדביקים לי אותו פה**"
+> 10. לוחצים **Generate Token**
+> 11. **מעתיקים את הטוקן ומדביקים לי**"
 
 **חכה שהמשתמש ידביק את הטוקן.**
 
 ---
 
-## 2. שליפת חשבונות מודעות
+## 3. שליפת חשבונות מודעות
 
 הרץ:
 
@@ -62,7 +78,7 @@ curl -s "https://graph.facebook.com/v21.0/me/adaccounts?fields=name,account_id,a
 ```
 
 **אם נכשל** — אמור:
-> "הטוקן לא עובד. בדוק שהעתקת את כל הטוקן ושהאפליקציה מחוברת ל-Business Manager.
+> "הטוקן לא עובד. בדוק שהעתקת את כל הטוקן ושה-System User קיבל הרשאות לחשבון המודעות.
 > תדביק שוב?"
 
 **אם הצליח** — הצג רשימה:
@@ -74,7 +90,7 @@ curl -s "https://graph.facebook.com/v21.0/me/adaccounts?fields=name,account_id,a
 
 ---
 
-## 3. שליפת דפים
+## 4. שליפת דפים
 
 ```bash
 curl -s "https://graph.facebook.com/v21.0/me/accounts?fields=name,id&access_token=TOKEN"
@@ -89,7 +105,7 @@ curl -s "https://graph.facebook.com/v21.0/me/accounts?fields=name,id&access_toke
 
 ---
 
-## 4. שליפת פיקסלים
+## 5. שליפת פיקסלים
 
 ```bash
 curl -s "https://graph.facebook.com/v21.0/act_XXXXX/adspixels?fields=name,id&access_token=TOKEN"
@@ -101,7 +117,7 @@ curl -s "https://graph.facebook.com/v21.0/act_XXXXX/adspixels?fields=name,id&acc
 
 ---
 
-## 5. אימות
+## 6. אימות
 
 הרץ בדיקה מהירה:
 
@@ -120,7 +136,7 @@ curl -s "https://graph.facebook.com/v21.0/act_XXXXX?fields=name,currency,timezon
 
 ---
 
-## 6. שמירה ב-CLAUDE.md
+## 7. שמירה ב-CLAUDE.md
 
 קרא את CLAUDE.md בתיקייה הנוכחית.
 
@@ -135,49 +151,10 @@ curl -s "https://graph.facebook.com/v21.0/act_XXXXX?fields=name,currency,timezon
 - Page: [שם] — XXXXX
 - Pixel: [שם] — XXXXX
 - Token: [הטוקן המלא]
+- סוג טוקן: System User (לא פג)
 - Currency: [ILS/USD]
 - Timezone: [timezone]
-- חיבור אחרון: [תאריך היום]
-
-**סוג טוקן:** [Graph API Explorer / System User]
 ```
-
----
-
-## 7. טוקן קבוע — System User
-
-אמור:
-> "עובד! אבל הטוקן הזה פג אחרי שעה.
-> עכשיו ניצור טוקן קבוע שלא פג לעולם. ככה לא תצטרך לחדש כל פעם."
-
-הדרך צעד-צעד:
-
-> "1. נכנסים ל-**business.facebook.com**
-> 2. **Settings** (גלגל שיניים למטה משמאל) → **Business Settings**
-> 3. בתפריט: **Users** → **System Users**
-> 4. לוחצים **Add** → נותנים שם (למשל: 'claude-bot') → בוחרים **Admin** → **Create**
-> 5. לוחצים **Add Assets** → **Ad Accounts** → מסמנים את החשבון → **Full Control** → **Save**
-> 6. חוזרים ל-**Add Assets** → **Pages** → מסמנים את הדף → **Full Control** → **Save**
-> 7. לוחצים **Generate New Token**
-> 8. בוחרים את ה-**App** שיצרתם קודם
-> 9. מסמנים הרשאות:
->    - `ads_management`
->    - `ads_read`
->    - `pages_read_engagement`
->    - `pages_manage_ads`
->    - `business_management`
->    - `read_insights`
-> 10. לוחצים **Generate Token**
-> 11. **מעתיקים את הטוקן ומדביקים לי**"
-
-**חכה שהמשתמש ידביק את הטוקן.**
-
-אחרי שמדביק — חזור לשלב 2 (שליפה ואימות עם הטוקן החדש).
-
-עדכן את CLAUDE.md:
-- החלף את הטוקן הישן בחדש
-- שנה "סוג טוקן" ל-**System User (לא פג)**
-- הסר את שורת "חיבור אחרון" (לא רלוונטי — הטוקן קבוע)
 
 ---
 
