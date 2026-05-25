@@ -43,7 +43,9 @@ argument-hint: "[טוקן]"
 >    - `ads_management`
 >    - `ads_read`
 >    - `pages_read_engagement`
+>    - `pages_manage_ads`
 >    - `business_management`
+>    - `read_insights`
 > 7. לוחצים **Generate Access Token** ומאשרים
 > 8. **מעתיקים את הטוקן ומדביקים לי אותו פה**"
 
@@ -107,12 +109,14 @@ curl -s "https://graph.facebook.com/v21.0/act_XXXXX/adspixels?fields=name,id&acc
 curl -s "https://graph.facebook.com/v21.0/act_XXXXX?fields=name,currency,timezone_name,amount_spent&access_token=TOKEN"
 ```
 
+**שים לב:** amount_spent מוחזר באגורות/סנטים. חלק ב-100 לפני הצגה.
+
 הצג:
 > "✓ מחובר!
 > חשבון: [שם]
 > מטבע: [currency]
 > אזור זמן: [timezone]
-> הוצאה כוללת: [amount_spent]"
+> הוצאה כוללת: [amount_spent / 100] [currency]"
 
 ---
 
