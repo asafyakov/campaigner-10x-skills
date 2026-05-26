@@ -4,15 +4,14 @@
 
 ## התקנה
 
-### Mac
-```bash
-curl -fsSL https://raw.githubusercontent.com/asafyakov/campaigner-10x-skills/main/install.sh | bash
+פתחו את Claude Code בתוך VS Code והדביקו:
+
+```
+תוריד את הסקילים agency-setup ו-meta-connect מהריפו הזה ותתקין אותם:
+https://github.com/asafyakov/campaigner-10x-skills
 ```
 
-### Windows
-```powershell
-Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned -Force; irm https://raw.githubusercontent.com/asafyakov/campaigner-10x-skills/main/install.ps1 | iex
-```
+קלוד קוד מוריד ומתקין הכל לבד.
 
 ## סקילים
 
