@@ -74,7 +74,7 @@ argument-hint: "[טוקן]"
 הרץ:
 
 ```bash
-curl -s "https://graph.facebook.com/v21.0/me/adaccounts?fields=name,account_id,account_status,currency,timezone_name&access_token=TOKEN"
+curl -s "https://graph.facebook.com/v22.0/me/adaccounts?fields=name,account_id,account_status,currency,timezone_name&access_token=TOKEN"
 ```
 
 **אם נכשל** — אמור:
@@ -93,7 +93,7 @@ curl -s "https://graph.facebook.com/v21.0/me/adaccounts?fields=name,account_id,a
 ## 4. שליפת דפים
 
 ```bash
-curl -s "https://graph.facebook.com/v21.0/me/accounts?fields=name,id&access_token=TOKEN"
+curl -s "https://graph.facebook.com/v22.0/me/accounts?fields=name,id&access_token=TOKEN"
 ```
 
 הצג ושאל:
@@ -108,7 +108,7 @@ curl -s "https://graph.facebook.com/v21.0/me/accounts?fields=name,id&access_toke
 ## 5. שליפת פיקסלים
 
 ```bash
-curl -s "https://graph.facebook.com/v21.0/act_XXXXX/adspixels?fields=name,id&access_token=TOKEN"
+curl -s "https://graph.facebook.com/v22.0/act_XXXXX/adspixels?fields=name,id&access_token=TOKEN"
 ```
 
 אם יש פיקסל אחד — בחר אוטומטית.
@@ -122,7 +122,7 @@ curl -s "https://graph.facebook.com/v21.0/act_XXXXX/adspixels?fields=name,id&acc
 הרץ בדיקה מהירה:
 
 ```bash
-curl -s "https://graph.facebook.com/v21.0/act_XXXXX?fields=name,currency,timezone_name,amount_spent&access_token=TOKEN"
+curl -s "https://graph.facebook.com/v22.0/act_XXXXX?fields=name,currency,timezone_name,amount_spent&access_token=TOKEN"
 ```
 
 **שים לב:** amount_spent מוחזר באגורות/סנטים. חלק ב-100 לפני הצגה.
