@@ -180,7 +180,93 @@ argument-hint: "[שם הסוכנות]"
 
 ---
 
-## 5. סיום
+## 5. חיבורי API — master_keys.py
+
+אמור:
+> "עכשיו נחבר את הכלים שמשלימים את הסוכנות.
+> שאלה אחת בכל פעם — לא חייב לענות על הכל עכשיו."
+
+**שאלה 1 — Apify (מחקר מתחרים):**
+> "יש לך מפתח Apify? (נשתמש בו כדי לשלוף מודעות של מתחרים ב-/competitor-research)
+>
+> אין? זה חינם לרישום:
+> 1. נכנסים ל-apify.com → Sign up
+> 2. Settings → Integrations → API tokens → Create token
+> 3. שלח לי את הטוקן"
+
+**שאלה 2 — KIE AI (יצירת קריאייטיבים):**
+> "יש לך מפתח KIE AI? (נשתמש בו ב-/creative-ai ליצירת תמונות עם AI)
+>
+> אין? kie.ai → נרשמים → API → Create key → שלח לי"
+
+**שאלה 3 — Replicate (תמלול הקלטות, בונוס):**
+> "יש לך מפתח Replicate? (אופציונלי — לתמלול אוטומטי של הקלטות שיחות לקוח ב-/dream-customer)
+>
+> אין? replicate.com → ניתן לדלג לעכשיו"
+
+**צור את הקובץ ~\.claude\master_keys.py — תמיד, גם אם אין עדיין מפתחות:**
+
+```python
+# ~/.claude/master_keys.py
+# נוצר ע"י /agency-setup — [תאריך]
+# להוסיף מפתח בעתיד: "תוסיף ל-master_keys.py את המפתח שלי ל-[כלי]"
+
+# Apify — מחקר מתחרים (/competitor-research)
+APIFY_API_TOKEN = "[מה שנאסף — "" אם לא נמסר]"
+
+# KIE AI — יצירת קריאייטיבים (/creative-ai)
+KIE_API_KEY = "[מה שנאסף — "" אם לא נמסר]"
+
+# Replicate — תמלול הקלטות (/dream-customer)
+REPLICATE_API_TOKEN = "[מה שנאסף — "" אם לא נמסר]"
+```
+
+**הקובץ נוצר תמיד** — גם אם כל המפתחות ריקים. זה מבטיח שהסקילים ימצאו את הקובץ ולא יתרסקו.
+
+אמור:
+> "יצרתי את master_keys.py עם מה שיש.
+> כשתרצה להוסיף מפתח — פשוט תגיד לי: 'תוסיף ל-master_keys.py את המפתח שלי ל-Apify: apify_api_...'"
+
+---
+
+## 6. בדיקת סוכנים ומפתחות
+
+לפני הסיום — בדוק שכל הכלים הנדרשים מותקנים:
+
+```bash
+# בדוק סוכנים
+ls ~/.claude/agents/
+# חייבים להיות: qa-campaign.md, copy-reviewer.md, researcher.md, reviewer.md, qa-tester.md
+
+# בדוק מפתחות
+python3 -c "
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path.home() / '.claude'))
+try:
+    import master_keys
+    keys = []
+    if hasattr(master_keys, 'APIFY_TOKEN'): keys.append('Apify ✅')
+    else: keys.append('Apify ❌')
+    if hasattr(master_keys, 'REPLICATE_API_TOKEN'): keys.append('Replicate ✅')
+    else: keys.append('Replicate ❌')
+    if hasattr(master_keys, 'KIE_API_KEY'): keys.append('KIE AI ✅')
+    else: keys.append('KIE AI ❌')
+    print(' | '.join(keys))
+except ImportError:
+    print('master_keys.py לא קיים')
+"
+```
+
+**אם חסרים סוכנים:**
+> "חסרים סוכנים: [רשימה]. ודא שהחבילה הותקנה נכון ב-~/.claude/agents/"
+
+**אם חסרים מפתחות:**
+> "חסרים מפתחות ל-[כלים]. לחיבור: ראה מדריך-חיבורים-חיצוניים.md"
+
+---
+
+## 6. סיום
 
 הצג:
 
@@ -192,6 +278,9 @@ argument-hint: "[שם הסוכנות]"
 └── .claude/
     ├── settings.json
     └── rules/
+
+🤖 סוכנים פעילים: qa-campaign | copy-reviewer | researcher | reviewer | qa-tester
+🔑 מפתחות: [Apify ✅/❌] | [Replicate ✅/❌] | [KIE AI ✅/❌]
 
 🔜 השלב הבא: /new-customer [שם לקוח] — להוסיף את הלקוח הראשון
 ```
